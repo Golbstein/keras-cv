@@ -92,12 +92,11 @@ class SegFormerMultiheadAttention(keras.layers.Layer):
 
         if self.sr_ratio > 1:
             x = ops.reshape(
-                ops.transpose(x, [0, 2, 1]),
+                x,
                 (B, H, W, C),
             )
             x = self.sr(x)
-            x = ops.reshape(x, [input_shape[0], input_shape[2], -1])
-            x = ops.transpose(x, [0, 2, 1])
+            x = ops.reshape(x, [input_shape[0], -1, input_shape[2]])
             x = self.norm(x)
 
         k = self.k(x)
